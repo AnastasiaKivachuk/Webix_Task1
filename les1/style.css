@@ -8,3 +8,16 @@
     /* margin: 15; */
     color: white;
   }
+
+.greenbutton.webix_el_button button, .greenbutton.webix_el_button button span,
+.greenbutton.webix_el_button button .webix_icon_btn {
+  color:green;
+  background-color: #eeeeee;
+  border: none;
+}
+
+.profilebutton.webix_el_button button, .profilebutton.webix_el_button button span,
+.profilebutton.webix_el_button button .webix_icon_btn{
+  color: white;
+  background-color: #657584;
+}
