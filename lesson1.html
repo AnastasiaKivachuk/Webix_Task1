@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lesson 1</title>
+    <script type="text/javascript" src="http://cdn.webix.com/edge/webix.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
+    <script type="text/javascript" src="testdata.js"></script>
+
+</head>
+
+<body>
+    <script type="text/javascript" charset="utf-8">
+        var row1 = {
+            cols: [{
+                view: "label",
+                css: "row1",
+                label: "My App",
+                align: "left",
+            },
+            { view: "button", css: "row1", width: 150, label: "<span class='webix_icon wxi-user htmlbutton_icon'></span><span class='htmlbutton_text'>Profile</span>", type: "htmlbutton" }]
+        };
+
+        var row2 = {
+            cols: [{
+                rows: [
+                    {
+                        view: "list",
+                        id: "mylist",
+                        scroll: false,
+                        width: 200,
+                        data: ["Dashboard", "Users", "Products", "Locations"]
+                    },
+                    {},
+                    { view: "button", id: "mybutton", value: "Connected" }
+                ]
+            },
+            { view: "resizer" },
+            {
+                rows: [
+                    {
+                        view: "datatable",
+                        data: small_film_set,
+                        autoConfig: true,
+                        editable: true,
+
+                    }
+                ]
+            },
+            {
+                view: "form",
+                id: "log_form",
+                elements: [{ template: "EDIT FILMS", type: "section" },
+                { view: "text", label: "Title", name: "Title" },
+                { view: "text", label: "Year", name: "Year" },
+                { view: "text", label: "Rating", name: "Rating" },
+                { view: "text", label: "Votes", name: "Votes" },
+                {
+                    cols: [
+                        { view: "button", value: "Add new", css: "webix_primary" },
+                        { view: "button", value: "Clear" }
+                    ]
+                }
+                ]
+            }
+            ]
+        };
+
+        webix.ui({
+            id: "app",
+            rows: [row1, row2,
+                { view: "template", css: "row3", template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)", align: "center" }]
+        });
+
+    </script>
+</body>
+
+</html>
