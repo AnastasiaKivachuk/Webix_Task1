@@ -18,11 +18,11 @@
         var row1 = {
             cols: [{
                 view: "label",
-                css: "row1",
+                css: "label",
                 label: "My App",
                 align: "left",
             },
-            { view: "button", css: "row1", width: 150, label: "<span class='webix_icon wxi-user htmlbutton_icon'></span><span class='htmlbutton_text'>Profile</span>", type: "htmlbutton" }]
+            { view: "button", css: "row1", autowidth: true, label: "<span class='webix_icon wxi-user htmlbutton_icon'></span><span class='htmlbutton_text'>Profile</span>", type: "htmlbutton" }]
         };
 
         var row2 = {
@@ -33,9 +33,9 @@
                         id: "mylist",
                         scroll: false,
                         width: 200,
+                        css: "listGray",
                         data: ["Dashboard", "Users", "Products", "Locations"]
                     },
-                    {},
                     { view: "button", id: "mybutton", value: "Connected" }
                 ]
             },
@@ -47,13 +47,16 @@
                         data: small_film_set,
                         autoConfig: true,
                         editable: true,
+                        scrollX: false,
 
                     }
+
                 ]
             },
             {
                 view: "form",
                 id: "log_form",
+                width: 400,
                 elements: [{ template: "EDIT FILMS", type: "section" },
                 { view: "text", label: "Title", name: "Title" },
                 { view: "text", label: "Year", name: "Year" },
@@ -64,7 +67,8 @@
                         { view: "button", value: "Add new", css: "webix_primary" },
                         { view: "button", value: "Clear" }
                     ]
-                }
+                },
+                { template: '', height: 200 }
                 ]
             }
             ]

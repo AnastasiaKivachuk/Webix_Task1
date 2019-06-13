@@ -1,6 +1,9 @@
 .row3
 {text-align: center;}
-
-.row1 {
+.sideGray{
+  background-color: #6e89a0;
+}
+.label1.label  {
     background-color: #5d6a75;
+    padding-left: 15;
   }
