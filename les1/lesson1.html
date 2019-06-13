@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lesson 1</title>
     <script type="text/javascript" src="http://cdn.webix.com/edge/webix.js"></script>
-    
+
     <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
     <script type="text/javascript" src="testdata.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -15,14 +15,24 @@
 
 <body>
     <script type="text/javascript" charset="utf-8">
-        var row1 = {
+        var toolbar = {
+            view: "toolbar",
+            css: "webix_dark toolbarPadding",
             cols: [{
                 view: "label",
-                css: "label",
                 label: "My App",
                 align: "left",
+
             },
-            { view: "button", css: "row1", autowidth: true, label: "<span class='webix_icon wxi-user htmlbutton_icon'></span><span class='htmlbutton_text'>Profile</span>", type: "htmlbutton" }]
+            {
+                view: "button",
+                autowidth: true,
+                label: "Profile",
+                type: "icon",
+                icon: "wxi-user",
+                css: "webix_transparent",
+                borderless: true,
+            }]
         };
 
         var row2 = {
@@ -33,10 +43,19 @@
                         id: "mylist",
                         scroll: false,
                         width: 200,
+                        // type: clean,
                         css: "sideGray",
                         data: ["Dashboard", "Users", "Products", "Locations"]
                     },
-                    { view: "button", id: "mybutton", value: "Connected", css:'greenbutton', borderless: true}
+                    {
+                        view: "button",
+                        label: "Connected",
+                        css: "greenbutton",
+                        borderless: true,
+                        css: 'greenbutton',
+                        type: "icon",
+                        icon: "wxi-check",
+                    }
                 ]
             },
             { view: "resizer" },
@@ -57,18 +76,44 @@
                 view: "form",
                 id: "log_form",
                 width: 400,
-                elements: [{ template: "EDIT FILMS", type: "section" },
-                { view: "text", label: "Title", name: "Title" },
-                { view: "text", label: "Year", name: "Year" },
-                { view: "text", label: "Rating", name: "Rating" },
-                { view: "text", label: "Votes", name: "Votes" },
+                elements: [{
+                    template: "EDIT FILMS",
+                    type: "section"
+                },
+                {
+                    view: "text",
+                    label: "Title",
+                    name: "Title"
+                },
+                {
+                    view: "text",
+                    label: "Year",
+                    name: "Year"
+                },
+                {
+                    view: "text",
+                    label: "Rating",
+                    name: "Rating"
+                },
+                {
+                    view: "text",
+                    label: "Votes",
+                    name: "Votes"
+                },
                 {
                     cols: [
-                        { view: "button", value: "Add new", css: "webix_primary" },
-                        { view: "button", value: "Clear" }
+                        {
+                            view: "button",
+                            value: "Add new",
+                            css: "webix_primary",
+                        },
+                        {
+                            view: "button",
+                            value: "Clear",
+                        }
                     ]
                 },
-                { template: '', height: 200 }
+                {}
                 ]
             }
             ]
@@ -76,8 +121,14 @@
 
         webix.ui({
             id: "app",
-            rows: [row1, row2,
-                { view: "template", css: "row3", template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)", align: "center" }]
+            rows: [toolbar, row2,
+                {
+                    view: "template",
+                    css: "row3",
+                    autoheight: true,
+                    template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)",
+                    align: "center"
+                }]
         });
 
     </script>

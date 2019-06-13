@@ -3,11 +3,9 @@
 .sideGray{
   background-color: #eeeeee;
 }
-.label  {
-    background-color: #657584;
-    /* margin: 15; */
-    color: white;
-  }
+.toolbarPadding{
+  padding-left: 10px;
+}
 
 .greenbutton.webix_el_button button, .greenbutton.webix_el_button button span,
 .greenbutton.webix_el_button button .webix_icon_btn {
