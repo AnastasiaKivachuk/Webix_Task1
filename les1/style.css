@@ -7,13 +7,13 @@
   padding-left: 10px;
 }
 
-.greenbutton.webix_el_button button, .greenbutton.webix_el_button button span,
-.greenbutton.webix_el_button button .webix_icon_btn {
+
+.greenbutton{
   color:green;
   background-color: #eeeeee;
   border: none;
+  text-align: center;
 }
-
 .profilebutton.webix_el_button button, .profilebutton.webix_el_button button span,
 .profilebutton.webix_el_button button .webix_icon_btn{
   color: white;

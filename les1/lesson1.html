@@ -51,13 +51,10 @@
                         data: ["Dashboard", "Users", "Products", "Locations"]
                     },
                     {
-                        view: "button",
-                        label: "Connected",
+                        template: "<div><span class='webix_icon wxi-check'></span>Connected</div>",
                         css: "greenbutton",
-                        borderless: true,
-                        css: 'greenbutton',
-                        type: "icon",
-                        icon: "wxi-check",
+                        autoheight: true,
+
                     }
                 ]
             },
@@ -142,7 +139,7 @@
                                         var VotesInput = $$("myform").elements.Votes;
                                         VotesInput.setValue("");
                                     },
-                                    
+
                                 );
                             }
 
