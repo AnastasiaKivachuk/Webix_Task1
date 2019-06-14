@@ -32,6 +32,9 @@
                 icon: "wxi-user",
                 css: "webix_transparent",
                 borderless: true,
+                click: function () {
+                    $$("mywindow").show();
+                }
             }]
         };
 
@@ -63,18 +66,18 @@
                 rows: [
                     {
                         view: "datatable",
+                        id: "mydata",
                         data: small_film_set,
                         autoConfig: true,
-                        editable: true,
                         scrollX: false,
 
-                    }
+                    },
 
                 ]
             },
             {
                 view: "form",
-                id: "log_form",
+                id: "myform",
                 width: 400,
                 elements: [{
                     template: "EDIT FILMS",
@@ -83,22 +86,26 @@
                 {
                     view: "text",
                     label: "Title",
-                    name: "Title"
+                    name: "Title",
+                    invalidMessage: "Please enter title"
                 },
                 {
                     view: "text",
                     label: "Year",
-                    name: "Year"
+                    name: "Year",
+                    invalidMessage: "Please enter year between 1970 and 2019"
                 },
                 {
                     view: "text",
                     label: "Rating",
-                    name: "Rating"
+                    name: "Rating",
+                    invalidMessage: "Please enter rating (it can't be 0)"
                 },
                 {
                     view: "text",
                     label: "Votes",
-                    name: "Votes"
+                    name: "Votes",
+                    invalidMessage: "Please enter votes less than 100000"
                 },
                 {
                     cols: [
@@ -106,30 +113,75 @@
                             view: "button",
                             value: "Add new",
                             css: "webix_primary",
+                            click: function () {
+                                if ($$("myform").validate()) {
+                                    webix.message("validation is successful");
+                                    var item = $$("myform").getValues();
+                                    console.log(item);
+                                    $$("mydata").add(item);
+                                }
+
+                            }
+
+
                         },
                         {
                             view: "button",
                             value: "Clear",
+                            click: function () {
+                                webix.confirm({
+                                    text: "Do you still want to continue?"
+                                }).then(
+                                    function () {
+                                        var titleInput = $$("myform").elements.Title;
+                                        titleInput.setValue("");
+                                        var YearInput = $$("myform").elements.Year;
+                                        YearInput.setValue("");
+                                        var RatingInput = $$("myform").elements.Rating;
+                                        RatingInput.setValue("");
+                                        var VotesInput = $$("myform").elements.Votes;
+                                        VotesInput.setValue("");
+                                    },
+                                    
+                                );
+                            }
+
                         }
-                    ]
+                    ],
+
                 },
                 {}
-                ]
+                ],
+                rules: {
+                    Title: webix.rules.isNotEmpty,
+                    Year: function (value) {
+                        return value >= 1970 && value <= 2019;
+                    },
+                    Rating: function (value) {
+                        return value != '' || value != 0 && value < 100000;
+                    },
+                    Votes: function (value) {
+                        return value != '' || value != 0;
+                    },
+                },
+
             }
+
             ]
         };
-
-        webix.ui({
-            id: "app",
-            rows: [toolbar, row2,
-                {
-                    view: "template",
-                    css: "row3",
-                    autoheight: true,
-                    template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)",
-                    align: "center"
-                }]
-        });
+        webix.ready(function () {
+            webix.ui({
+                id: "app",
+                rows: [toolbar, row2,
+                    {
+                        view: "template",
+                        css: "row3",
+                        autoheight: true,
+                        template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)",
+                        align: "center"
+                    }]
+            });
+        })
 
     </script>
 </body>
