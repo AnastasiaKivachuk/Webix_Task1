@@ -32,7 +32,10 @@
         };
         var toolbar = {
             view: "toolbar",
-            css: "webix_dark toolbarPadding",
+            padding: {
+                left: 10, right: 10
+            },
+            css: "webix_dark",
             cols: [{
                 view: "label",
                 label: "My App",
@@ -48,7 +51,7 @@
                 css: "webix_transparent",
                 borderless: true,
                 click: function () {
-                  $$("my_popup").show();
+                    $$("my_popup").show();
                 }
             }]
         };
@@ -105,7 +108,7 @@
                     view: "text",
                     label: "Year",
                     name: "Year",
-                    invalidMessage: "Please enter year between 1970 and 2019"
+                    invalidMessage: "Please enter year between 1970 and current"
                 },
                 {
                     view: "text",
@@ -144,15 +147,9 @@
                                 webix.confirm({
                                     text: "Do you still want to continue?"
                                 }).then(
-                                    function () {
-                                        var titleInput = $$("myform").elements.Title;
-                                        titleInput.setValue("");
-                                        var YearInput = $$("myform").elements.Year;
-                                        YearInput.setValue("");
-                                        var RatingInput = $$("myform").elements.Rating;
-                                        RatingInput.setValue("");
-                                        var VotesInput = $$("myform").elements.Votes;
-                                        VotesInput.setValue("");
+                                    function clear_form() {
+                                        $$('myform').clear();
+                                        $$("myform").clearValidation();
                                     },
 
                                 );
@@ -162,20 +159,20 @@
                     ],
 
                 },
-                {}
+        { }
                 ],
-                rules: {
-                    Title: webix.rules.isNotEmpty,
-                    Year: function (value) {
-                        return value >= 1970 && value <= 2019;
-                    },
-                    Rating: function (value) {
-                        return value != "" || value != 0 && value < 100000;
-                    },
-                    Votes: function (value) {
-                        return value != "" || value != 0;
-                    },
+        rules: {
+            Title: webix.rules.isNotEmpty,
+                Year: function (value) {
+                    return value >= 1970 && value <= (new Date()).getFullYear();
                 },
+            Rating: function (value) {
+                return value != "" || value != 0 && value < 100000;
+            },
+            Votes: function (value) {
+                return value != "" || value != 0;
+            },
+        },
 
             }
 
