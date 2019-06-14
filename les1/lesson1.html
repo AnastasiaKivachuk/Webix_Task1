@@ -15,6 +15,21 @@
 
 <body>
     <script type="text/javascript" charset="utf-8">
+
+
+        var menuWindow = {
+            view: "popup",
+            id: "my_popup",
+            // position: "center",
+            body: {
+                view: "list",
+                id: "myMenulist",
+                scroll: false,
+                width: 100,
+                css: "sideGray",
+                data: ["Settings", "Log out"]
+            }
+        };
         var toolbar = {
             view: "toolbar",
             css: "webix_dark toolbarPadding",
@@ -33,12 +48,12 @@
                 css: "webix_transparent",
                 borderless: true,
                 click: function () {
-                    $$("mywindow").show();
+                  $$("my_popup").show();
                 }
             }]
         };
 
-        var row2 = {
+        var main = {
             cols: [{
                 rows: [
                     {
@@ -155,10 +170,10 @@
                         return value >= 1970 && value <= 2019;
                     },
                     Rating: function (value) {
-                        return value != '' || value != 0 && value < 100000;
+                        return value != "" || value != 0 && value < 100000;
                     },
                     Votes: function (value) {
-                        return value != '' || value != 0;
+                        return value != "" || value != 0;
                     },
                 },
 
@@ -169,10 +184,10 @@
         webix.ready(function () {
             webix.ui({
                 id: "app",
-                rows: [toolbar, row2,
+                rows: [toolbar, main,
                     {
                         view: "template",
-                        css: "row3",
+                        css: "footer",
                         autoheight: true,
                         template: "The software is provided by <a href=#>https://webix.com</a>. All rights reserved (c)",
                         align: "center"
