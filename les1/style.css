@@ -19,3 +19,7 @@
   border: none;
   text-align: center;
 }
+
+.removeUser{
+  float: right;
+}
