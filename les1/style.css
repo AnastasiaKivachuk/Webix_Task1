@@ -4,16 +4,18 @@
   background-color: #eeeeee;
 }
 
-
+.hoverLine{
+  
+  background-color: #f4f5f9;
+}
+.grayColumn{
+  
+  background-color: #f4f5f9;
+}
 
 .greenbutton{
   color:green;
   background-color: #eeeeee;
   border: none;
   text-align: center;
-}
-.profilebutton.webix_el_button button, .profilebutton.webix_el_button button span,
-.profilebutton.webix_el_button button .webix_icon_btn{
-  color: white;
-  background-color: #657584;
 }
