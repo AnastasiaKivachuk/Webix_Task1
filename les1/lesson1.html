@@ -162,34 +162,7 @@
 
         };
 
-        var btnSortASC =
-        {
-            view: "button",
-            value: "Add new",
-            css: "webix_primary",
-            click: function () {
-                if ($$("myform").validate()) {
-                    webix.message("validation is successful");
-                    var item = $$("myform").getValues();
-                    console.log(item);
-                    $$("mydata").add(item);
-                }
-            }
-        };
-        var btnSortDESC = {
-            view: "button",
-            value: "Clear",
-            click: function () {
-                webix.confirm({
-                    text: "Do you still want to continue?"
-                }).then(
-                    function clear_form() {
-                        $$('myform').clear();
-                        $$("myform").clearValidation();
-                    },
-                );
-            }
-        };
+
 
         var listUser = {
             view: "list",
@@ -241,7 +214,7 @@
                     css: "webix_primary",
                     autowidth: true,
                     click: function () {
-                        $$("mylistUser").sort("#name#","asc","string")
+                        $$("mylistUser").sort("#name#", "asc", "string")
                     }
                 },
                 {
@@ -250,18 +223,35 @@
                     css: "webix_primary",
                     autowidth: true,
                     click: function () {
-                        $$("mylistUser").sort("#name#","desc","string")
+                        $$("mylistUser").sort("#name#", "desc", "string")
                     }
 
                 },
             ]
         };
 
+
+        var treeProduct = {
+            view: "treetable",
+            columns: [
+                { id: "id", header: "", css: { "text-align": "right" }, width: 50 },
+                {
+                    id: "title", header: "Title", width: 250,
+                    template: "{common.treetable()} #title#"
+                },
+                { id: "price", header: "Price", width: 100}
+            ],
+            autowidth: true,
+
+            data: dataProduct,
+            
+        };
+
         var multiviewCells = {
             cells: [
                 { id: "Dashboard", cols: [dataTable, form] },
                 { id: "Users", rows: [sortLine, listUser, chartUser] },
-                { id: "Products", template: "Products view" },
+                { id: "Products", rows: [treeProduct] },
                 { id: "Locations", template: "Admin  view" },
 
             ]
@@ -311,11 +301,12 @@
                     footer]
             });
             // $$("mydata").load("data/data.js");
-            $$("mylist").select("Users");
-
+            $$("mylist").select("Dashboard");
+            
+            treeProduct.openAll();
         })
 
-
+        
 
     </script>
 </body>
