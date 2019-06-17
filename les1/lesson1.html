@@ -9,8 +9,7 @@
     <script type="text/javascript" src="http://cdn.webix.com/edge/webix.js"></script>
 
     <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
-    <script type="text/javascript" src="testdata.js"></script>
-    <script type="text/javascript" src="data/data.js"></script>
+    <!-- <script type="text/javascript" src="data/data.js"></script> -->
     <script type="text/javascript" src="data/users.js"></script>
     <script type="text/javascript" src="data/products.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -26,7 +25,9 @@
                 left: 10, right: 10
             },
             css: "webix_dark",
-            cols: [{
+            cols: 
+            [
+                {
                 view: "label",
                 label: "My App",
                 align: "left",
@@ -53,17 +54,18 @@
                         data: ["Settings", "Log out"]
                     }
                 }
-            }]
+            }
+            ]
         };
 
         var dataTable = {
             view: "datatable",
             id: "mydata",
             hover: "hoverLine",
-            // data: small_film_set,  
-            data: dataData,
+           // data: dataData,
             // template: "#id# #title# #year# #votes# #rating#",
-            columns: [
+            columns: 
+            [
                 { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
                 { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
                 { id: "year", header: ["Released", { content: "textFilter" }], width: 100, sort: "int" },
@@ -73,7 +75,17 @@
             ],
             autoConfig: true,
             scrollX: false,
-            //ulr: "data/data.js",
+            ulr: "data/data.js",
+            // on: function removeBtn (e, id) {
+            //                 webix.confirm({
+            //                     text: "Do you still want to continue?"
+            //                 }).then(
+            //                     function () {
+            //                         this.remove(id);
+            //         return false;
+            //                     },
+            //                 );
+            //             }
             onClick: {
                 removeBtn: function (e, id) {
                     this.remove(id);
@@ -93,29 +105,30 @@
             {
                 view: "text",
                 label: "Title",
-                name: "Title",
+                name: "title",
                 invalidMessage: "Please enter title"
             },
             {
                 view: "text",
                 label: "Year",
-                name: "Year",
+                name: "year",
                 invalidMessage: "Please enter year between 1970 and current"
             },
             {
                 view: "text",
                 label: "Rating",
-                name: "Rating",
+                name: "rating",
                 invalidMessage: "Please enter rating (it can't be 0)"
             },
             {
                 view: "text",
                 label: "Votes",
-                name: "Votes",
+                name: "votes",
                 invalidMessage: "Please enter votes less than 100000"
             },
             {
-                cols: [
+                cols: 
+                [
                     {
                         view: "button",
                         value: "Add new",
@@ -148,14 +161,14 @@
             {}
             ],
             rules: {
-                Title: webix.rules.isNotEmpty,
-                Year: function (value) {
+                title: webix.rules.isNotEmpty,
+                year: function (value) {
                     return value >= 1970 && value <= (new Date()).getFullYear();
                 },
-                Rating: function (value) {
+                rating: function (value) {
                     return value != 0;
                 },
-                Votes: function (value) {
+                votes: function (value) {
                     return value < 100000;
                 },
             },
@@ -168,7 +181,6 @@
             view: "list",
             id: "mylistUser",
             dynamic: true,
-            width: 800,
             height: 400,
             template: "#name# from #country# <span class='webix_icon wxi-close removeUser'></span>",
             select: "multiselect",
@@ -203,7 +215,8 @@
 
         var sortLine = {
             paddingY: 5,
-            cols: [
+            cols: 
+            [
                 {
                     view: "text",
                     id: "inputUser",
@@ -233,7 +246,8 @@
 
         var treeProduct = {
             view: "treetable",
-            columns: [
+            columns: 
+            [
                 { id: "id", header: "", css: { "text-align": "right" }, width: 50 },
                 {
                     id: "title", header: "Title", width: 250,
@@ -241,14 +255,14 @@
                 },
                 { id: "price", header: "Price", width: 100}
             ],
-            autowidth: true,
 
             data: dataProduct,
             
         };
 
         var multiviewCells = {
-            cells: [
+            cells: 
+            [
                 { id: "Dashboard", cols: [dataTable, form] },
                 { id: "Users", rows: [sortLine, listUser, chartUser] },
                 { id: "Products", rows: [treeProduct] },
@@ -258,7 +272,9 @@
         };
 
         var main = {
-            cols: [{
+            cols: 
+            [
+                {
                 rows: [
                     {
                         view: "list",
@@ -297,13 +313,9 @@
         webix.ready(function () {
             webix.ui({
                 id: "app",
-                rows: [toolbar, main,
-                    footer]
+                rows: [toolbar, main, footer]
             });
-            // $$("mydata").load("data/data.js");
             $$("mylist").select("Dashboard");
-            
-            treeProduct.openAll();
         })
 
         
