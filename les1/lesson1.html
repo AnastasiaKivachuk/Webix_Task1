@@ -81,21 +81,18 @@
             view: "datatable",
             id: "mydata",
             hover: "hoverLine",
-            data: dataData,
-            // template: "#id# #title# #year# #votes# #rating#           
+            data: dataData,         
             autoConfig: true,
             scrollX: false,
             select: true,
-
-
-
             columns:
                 [
                     { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
                     { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
                     {
                         id: "categoty", header: ["Categoty", { content: "selectFilter" }],
-                        editor: "select", data: [
+                        editor: "select", data: 
+                        [
                             { "id": 1, "value": "Drama" },
                             { "id": 2, "value": "Fiction" },
                             { "id": 3, "value": "Comedy" },
@@ -109,7 +106,7 @@
                 ],
             scheme: {
                 $init: function (obj) {
-                    obj.category = Math.floor(Math.random() * 4 + 1);
+                    obj.value = Math.floor(Math.random() * 4 + 1);
                 }
             },
             //    on:{onAfterSelect:function(id){
@@ -128,10 +125,6 @@
                         })
                 }
             },
-
-        };
-
-        function randomCategory() {
 
         };
 
@@ -224,7 +217,6 @@
         var listUser = {
             view: "editlist",
             id: "mylistUser",
-            dynamic: true,
             height: 400,
             select: true,
             editable: true,
