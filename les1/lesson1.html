@@ -9,9 +9,11 @@
     <script type="text/javascript" src="http://cdn.webix.com/edge/webix.js"></script>
 
     <link rel="stylesheet" type="text/css" href="http://cdn.webix.com/edge/webix.css">
-    <!-- <script type="text/javascript" src="data/data.js"></script> -->
+    <script type="text/javascript" src="data/data.js"></script>
     <script type="text/javascript" src="data/users.js"></script>
     <script type="text/javascript" src="data/products.js"></script>
+    <script type="text/javascript" src="data/categories.js"></script>
+    <script type="text/javascript" src="data/countries.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -25,73 +27,99 @@
                 left: 10, right: 10
             },
             css: "webix_dark",
-            cols: 
-            [
-                {
-                view: "label",
-                label: "My App",
-                align: "left",
+            cols:
+                [
+                    {
+                        view: "label",
+                        label: "My App",
+                        align: "left",
 
-            },
-            {
-                view: "button",
-                autowidth: true,
-                label: "Profile",
-                type: "icon",
-                icon: "wxi-user",
-                css: "webix_transparent",
-                borderless: true,
-                popup: {
-                    view: "popup",
-                    id: "my_popup",
-                    body: {
-                        view: "list",
-                        id: "myMenulist",
-                        scroll: false,
-                        width: 200,
-                        autoheight: true,
-                        css: "sideGray",
-                        data: ["Settings", "Log out"]
+                    },
+                    {
+                        view: "button",
+                        autowidth: true,
+                        label: "Profile",
+                        type: "icon",
+                        icon: "wxi-user",
+                        css: "webix_transparent",
+                        borderless: true,
+                        popup: {
+                            view: "popup",
+                            id: "my_popup",
+                            body: {
+                                view: "list",
+                                id: "myMenulist",
+                                scroll: false,
+                                width: 200,
+                                autoheight: true,
+                                css: "sideGray",
+                                data: ["Settings", "Log out"]
+                            }
+                        }
                     }
+                ]
+        };
+
+        var tabbar = {
+            view: "tabbar", id: "tabbar", inputWidth: 400,
+            options:
+                [
+                    { id: 1, value: "All" },
+                    { id: 2, value: "Old" },
+                    { id: 3, value: "Modern" },
+                    { id: 4, value: "New" }
+                ],
+            on: {
+                onChange: function () {
+                    $$("mydata").filterByAll();
                 }
             }
-            ]
         };
+
+
 
         var dataTable = {
             view: "datatable",
             id: "mydata",
             hover: "hoverLine",
-           // data: dataData,
-            // template: "#id# #title# #year# #votes# #rating#",
-            columns: 
-            [
-                { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
-                { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
-                { id: "year", header: ["Released", { content: "textFilter" }], width: 100, sort: "int" },
-                { id: "votes", header: ["Votes", { content: "textFilter" }], width: 80, sort: "int" },
-                { id: "rating", header: ["Rating", { content: "textFilter" }], width: 80, sort: "int" },
-                { template: "<span class='webix_icon wxi-trash removeBtn'></span>" }
-            ],
+            data: dataData,
+            // template: "#id# #title# #year# #votes# #rating#           
             autoConfig: true,
             scrollX: false,
-            ulr: "data/data.js",
-            // on: function removeBtn (e, id) {
-            //                 webix.confirm({
-            //                     text: "Do you still want to continue?"
-            //                 }).then(
-            //                     function () {
-            //                         this.remove(id);
-            //         return false;
-            //                     },
-            //                 );
-            //             }
+            select: true,
+
+            //    on:{onAfterSelect:function(id){
+            //     $$("myform").setValues( $$("mydata").getItem(id) );
+            //    }} ,
+
+            columns:
+                [
+                    { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
+                    { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
+                    { id: "categoty", header: ["Categoty", { content: "selectFilter" }], width: 100, sort: "int" },
+                    { id: "votes", header: ["Votes", { content: "textFilter" }], width: 80, sort: "int" },
+                    { id: "rating", header: ["Rating", { content: "textFilter" }], width: 80, sort: "int" },
+                    { id: "year", header: ["Year"], width: 100, sort: "int" },
+                    { template: "<span class='webix_icon wxi-trash removeBtn'></span>" }
+                ],
+
+            // ulr: "data/data.js",
             onClick: {
                 removeBtn: function (e, id) {
-                    this.remove(id);
-                    return false;
+                    webix.confirm({
+                        text: "Do you still want to continue?"
+                    }).then(
+                        function () {
+                            $$("mydata").remove(id);
+                            return false;
+                        })
                 }
             },
+
+        };
+
+        function randomCategory() {
+            return Math.floor(Math.random() * (4) + 1);
         };
 
         var form = {
@@ -127,36 +155,36 @@
                 invalidMessage: "Please enter votes less than 100000"
             },
             {
-                cols: 
-                [
-                    {
-                        view: "button",
-                        value: "Add new",
-                        css: "webix_primary",
-                        click: function () {
-                            if ($$("myform").validate()) {
-                                webix.message("validation is successful");
-                                var item = $$("myform").getValues();
-                                console.log(item);
-                                $$("mydata").add(item);
+                cols:
+                    [
+                        {
+                            view: "button",
+                            value: "Add new",
+                            css: "webix_primary",
+                            click: function () {
+                                if ($$("myform").validate()) {
+                                    webix.message("validation is successful");
+                                    var item = $$("myform").getValues();
+                                    console.log(item);
+                                    $$("mydata").add(item);
+                                }
+                            }
+                        },
+                        {
+                            view: "button",
+                            value: "Clear",
+                            click: function () {
+                                webix.confirm({
+                                    text: "Do you still want to continue?"
+                                }).then(
+                                    function clear_form() {
+                                        $$('myform').clear();
+                                        $$("myform").clearValidation();
+                                    },
+                                );
                             }
                         }
-                    },
-                    {
-                        view: "button",
-                        value: "Clear",
-                        click: function () {
-                            webix.confirm({
-                                text: "Do you still want to continue?"
-                            }).then(
-                                function clear_form() {
-                                    $$('myform').clear();
-                                    $$("myform").clearValidation();
-                                },
-                            );
-                        }
-                    }
-                ],
+                    ],
             },
             {}
             ],
@@ -187,8 +215,13 @@
             data: dataUser,
             onClick: {
                 removeUser: function (e, id) {
-                    this.remove(id);
-                    return false;
+                    webix.confirm({
+                        text: "Do you still want to continue?"
+                    }).then(
+                        function () {
+                            $$("mylistUser").remove(id);
+                            return false;
+                        })
                 }
             },
         }
@@ -215,91 +248,120 @@
 
         var sortLine = {
             paddingY: 5,
-            cols: 
-            [
-                {
-                    view: "text",
-                    id: "inputUser",
-                },
-                {
-                    view: "button",
-                    value: "Sort asc",
-                    css: "webix_primary",
-                    autowidth: true,
-                    click: function () {
-                        $$("mylistUser").sort("#name#", "asc", "string")
-                    }
-                },
-                {
-                    view: "button",
-                    value: "Sort desc",
-                    css: "webix_primary",
-                    autowidth: true,
-                    click: function () {
-                        $$("mylistUser").sort("#name#", "desc", "string")
-                    }
-
-                },
-            ]
-        };
-
-
-        var treeProduct = {
-            view: "treetable",
-            columns: 
-            [
-                { id: "id", header: "", css: { "text-align": "right" }, width: 50 },
-                {
-                    id: "title", header: "Title", width: 250,
-                    template: "{common.treetable()} #title#"
-                },
-                { id: "price", header: "Price", width: 100}
-            ],
-
-            data: dataProduct,
-            
-        };
-
-        var multiviewCells = {
-            cells: 
-            [
-                { id: "Dashboard", cols: [dataTable, form] },
-                { id: "Users", rows: [sortLine, listUser, chartUser] },
-                { id: "Products", rows: [treeProduct] },
-                { id: "Locations", template: "Admin  view" },
-
-            ]
-        };
-
-        var main = {
-            cols: 
-            [
-                {
-                rows: [
+            cols:
+                [
                     {
-                        view: "list",
-                        id: "mylist",
-                        scroll: false,
-                        width: 200,
-                        select: true,
-                        css: "sideGray",
+                        view: "text",
+                        id: "inputUser",
                         on: {
-                            onAfterSelect: function (id) {
-                                $$(id).show();
+                            onTimedKeyPress: function () {
+                                var value = $$("inputUser").getValue().toLowerCase();
+                                $$("mylistUser").filter(function (obj) {
+                                    return obj.name.toLowerCase().indexOf(value) == 0;
+                                })
                             }
-                        },
-                        data: ["Dashboard", "Users", "Products", "Locations"],
+                        }
                     },
                     {
-                        template: "<div><span class='webix_icon wxi-check'></span>Connected</div>",
-                        css: "greenbutton",
-                        autoheight: true,
-                    }
+                        view: "button",
+                        value: "Sort asc",
+                        css: "webix_primary",
+                        autowidth: true,
+                        click: function () {
+                            $$("mylistUser").sort("#name#", "asc", "string")
+                        }
+                    },
+                    {
+                        view: "button",
+                        value: "Sort desc",
+                        css: "webix_primary",
+                        autowidth: true,
+                        click: function () {
+                            $$("mylistUser").sort("#name#", "desc", "string")
+                        }
+
+                    },
                 ]
+        };
+
+
+        webix.protoUI({
+            name: "editTreeTable"
+        },
+        webix.EditAbility, webix.ui.treetable);
+
+        var treeProduct = {
+            id: "treeProduct",
+            view: "editTreeTable",
+            columns:
+                [
+                    { id: "id", header: "", css: { "text-align": "right" }, width: 50 },
+                    {
+                        id: "title", header: "Title", width: 250,
+                        template: "{common.treetable()} #title#"
+                    },
+                    { id: "price", header: "Price", width: 100 }
+                ],
+            select: true,
+            editable: true,
+            editaction: "dblclick",
+            editor: "text",
+            editValue: "value",
+            rules: {
+                "title": webix.rules.isNotEmpty,
+                "price": webix.rules.isNumber
             },
-            { view: "resizer" },
-                multiviewCells
-            ]
+            data: dataProduct,
+            on: {
+                onAfterLoad: function (id) {
+                    $$("treeProduct").openAll();
+                }
+            }
+        };
+        var multiviewCells = {
+            cells:
+                [
+                    { id: "Dashboard", rows: [tabbar, { cols: [dataTable, form] }] },
+                    { id: "Users", rows: [sortLine, listUser, chartUser] },
+                    { id: "Products", rows: [treeProduct] },
+                    { id: "Locations", template: "Admin  view" },
+
+                ]
+        };
+
+
+
+
+
+        var main = {
+            cols:
+                [
+                    {
+                        rows: [
+                            {
+                                view: "list",
+                                id: "mylist",
+                                scroll: false,
+                                width: 200,
+                                select: true,
+                                css: "sideGray",
+                                on: {
+                                    onAfterSelect: function (id) {
+                                        $$(id).show();
+                                    }
+                                },
+                                data: ["Dashboard", "Users", "Products", "Locations"],
+                            },
+                            {
+                                template: "<div><span class='webix_icon wxi-check'></span>Connected</div>",
+                                css: "greenbutton",
+                                autoheight: true,
+                            }
+                        ]
+                    },
+                    { view: "resizer" },
+                    multiviewCells
+                ]
         };
 
         var footer = {
@@ -315,11 +377,35 @@
                 id: "app",
                 rows: [toolbar, main, footer]
             });
+
+
+
+            $$("mydata").registerFilter(
+                $$("tabbar"),
+                {
+                    columnId: "year",
+                    compare: function (value, filter) {
+                        var filterYear = parseInt(filter);
+                        if (filterYear == 1) return value;
+                        else if (filterYear == 2) return (value <= 2010);
+                        else if (filterYear == 3) return (value > 2010 && value < 2018);
+                        else return (value > 2018);
+                    }
+                },
+                {
+                    getValue: function (node) {
+                        return node.getValue();
+                    },
+                    setValue: function (node, value) {
+                        node.setValue(value);
+                    }
+                }
+            );
+
+            $$("myform").bind($$("mydata"));
+
             $$("mylist").select("Dashboard");
-        })
-
-        
-
+        });
     </script>
 </body>
 
