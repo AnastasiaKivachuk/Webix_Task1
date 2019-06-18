@@ -81,7 +81,6 @@
             view: "datatable",
             id: "mydata",
             hover: "hoverLine",
-            data: dataData,         
             autoConfig: true,
             scrollX: false,
             select: true,
@@ -91,13 +90,13 @@
                     { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
                     {
                         id: "categoty", header: ["Categoty", { content: "selectFilter" }],
-                        editor: "select", data: 
-                        [
-                            { "id": 1, "value": "Drama" },
-                            { "id": 2, "value": "Fiction" },
-                            { "id": 3, "value": "Comedy" },
-                            { "id": 4, "value": "Horror" }
-                        ], width: 100, sort: "string"
+                        editor: "select", data:
+                            [
+                                { "id": 1, "value": "Drama" },
+                                { "id": 2, "value": "Fiction" },
+                                { "id": 3, "value": "Comedy" },
+                                { "id": 4, "value": "Horror" }
+                            ], width: 100, sort: "string"
                     },
                     { id: "votes", header: ["Votes", { content: "textFilter" }], width: 80, sort: "int" },
                     { id: "rating", header: ["Rating", { content: "textFilter" }], width: 80, sort: "int" },
@@ -113,7 +112,7 @@
             //     $$("myform").setValues( $$("mydata").getItem(id) );
             //    }} ,
 
-            // ulr: "data/data.js",
+            url: "data/data.js",
             onClick: {
                 removeBtn: function (e, id) {
                     webix.confirm({
@@ -224,7 +223,7 @@
             editor: "text",
             editValue: "name",
             template: "#name# from #country# <span class='webix_icon wxi-close removeUser'></span>",
-            data: dataUser,
+            url: "data/users.js",
             rules: {
                 "name": webix.rules.isNotEmpty,
             },
@@ -351,7 +350,7 @@
                 "title": webix.rules.isNotEmpty,
                 "price": webix.rules.isNumber
             },
-            data: dataProduct,
+            url: "data/products.js",
             on: {
                 onAfterLoad: function (id) {
                     $$("treeProduct").openAll();
@@ -451,7 +450,7 @@
 
             $$("myform").bind($$("mydata"));
 
-            
+
             $$("mylist").select("Dashboard");
         });
     </script>
