@@ -88,20 +88,34 @@
             scrollX: false,
             select: true,
 
-            //    on:{onAfterSelect:function(id){
-            //     $$("myform").setValues( $$("mydata").getItem(id) );
-            //    }} ,
+
 
             columns:
                 [
                     { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
                     { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
-                    { id: "categoty", header: ["Categoty", { content: "selectFilter" }], width: 100, sort: "int" },
+                    {
+                        id: "categoty", header: ["Categoty", { content: "selectFilter" }],
+                        editor: "select", data: [
+                            { "id": 1, "value": "Drama" },
+                            { "id": 2, "value": "Fiction" },
+                            { "id": 3, "value": "Comedy" },
+                            { "id": 4, "value": "Horror" }
+                        ], width: 100, sort: "string"
+                    },
                     { id: "votes", header: ["Votes", { content: "textFilter" }], width: 80, sort: "int" },
                     { id: "rating", header: ["Rating", { content: "textFilter" }], width: 80, sort: "int" },
                     { id: "year", header: ["Year"], width: 100, sort: "int" },
                     { template: "<span class='webix_icon wxi-trash removeBtn'></span>" }
                 ],
+            scheme: {
+                $init: function (obj) {
+                    obj.category = Math.floor(Math.random() * (4) + 1);
+                }
+            },
+            //    on:{onAfterSelect:function(id){
+            //     $$("myform").setValues( $$("mydata").getItem(id) );
+            //    }} ,
 
             // ulr: "data/data.js",
             onClick: {
@@ -119,7 +133,7 @@
         };
 
         function randomCategory() {
-            return Math.floor(Math.random() * (4) + 1);
+
         };
 
         var form = {
@@ -203,16 +217,32 @@
 
         };
 
+        webix.protoUI({
+            name: "editlist"
+        }, webix.EditAbility, webix.ui.list);
 
 
         var listUser = {
-            view: "list",
+            view: "editlist",
             id: "mylistUser",
             dynamic: true,
             height: 400,
+            select: true,
+            editable: true,
+            editaction: "dblclick",
+            editor: "text",
+            editValue: "name",
             template: "#name# from #country# <span class='webix_icon wxi-close removeUser'></span>",
-            select: "multiselect",
             data: dataUser,
+            rules: {
+                "name": webix.rules.isNotEmpty,
+            },
+            scheme: {
+                $change: function (obj) {
+                    if (obj.age < 26)
+                        obj.$css = "highlight";
+                }
+            },
             onClick: {
                 removeUser: function (e, id) {
                     webix.confirm({
@@ -224,7 +254,8 @@
                         })
                 }
             },
-        }
+        };
+
         var chartUser = {
             view: "chart",
             type: "bar",
@@ -288,7 +319,7 @@
         webix.protoUI({
             name: "editTreeTable"
         },
-        webix.EditAbility, webix.ui.treetable);
+            webix.EditAbility, webix.ui.treetable);
 
         var treeProduct = {
             id: "treeProduct",
@@ -297,10 +328,10 @@
                 [
                     { id: "id", header: "", css: { "text-align": "right" }, width: 50 },
                     {
-                        id: "title", header: "Title", width: 250,
+                        id: "title", editor: "text", header: "Title", width: 250,
                         template: "{common.treetable()} #title#"
                     },
-                    { id: "price", header: "Price", width: 100 }
+                    { id: "price", editor: "text", header: "Price", width: 100 }
                 ],
             select: true,
             editable: true,
@@ -401,6 +432,16 @@
                     }
                 }
             );
+
+
+            $$("chartUser").group({
+                by: "coutry",
+                map: {
+                    coutry: ["coutry", "count"]
+                }
+            });
+
+            $$("mylistUser").sync($$("chartUser"));
 
             $$("myform").bind($$("mydata"));
 

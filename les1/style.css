@@ -27,3 +27,7 @@
 .priceStyle{
   float: right;
 }
+
+.highlight{
+  background:yellow;
+}
