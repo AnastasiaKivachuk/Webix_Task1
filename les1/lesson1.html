@@ -13,7 +13,6 @@
     <script type="text/javascript" src="data/users.js"></script>
     <script type="text/javascript" src="data/products.js"></script>
     <script type="text/javascript" src="data/categories.js"></script>
-    <script type="text/javascript" src="data/countries.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -110,7 +109,7 @@
                 ],
             scheme: {
                 $init: function (obj) {
-                    obj.category = Math.floor(Math.random() * (4) + 1);
+                    obj.category = Math.floor(Math.random() * 4 + 1);
                 }
             },
             //    on:{onAfterSelect:function(id){
@@ -258,7 +257,7 @@
 
         var chartUser = {
             view: "chart",
-            id:"chart",
+            id: "chart",
             type: "bar",
             xAxis: {
                 template: "#country#",
@@ -270,9 +269,19 @@
                 start: 0,
                 end: 10,
                 step: 2,
-                
+
             },
         };
+
+        function funcountry() {
+            var values = ["Germany", "USA", "Canada", "France", "China", "Russia", "Italy", "Spain"];
+
+            return {
+                "name": "New user",
+                "age": Math.floor(Math.random() * 60 + 20),
+                "country": values[Math.floor(Math.random() * 7)]
+            }
+        }
 
         var sortLine = {
             paddingY: 5,
@@ -288,6 +297,17 @@
                                     return obj.name.toLowerCase().indexOf(value) == 0;
                                 })
                             }
+                        }
+                    },
+                    {
+                        view: "button",
+                        value: "Add user",
+                        css: "webix_primary",
+                        autowidth: true,
+                        click: function () {
+                            $$("mylistUser").add(
+                                funcountry()
+                            )
                         }
                     },
                     {
@@ -406,7 +426,14 @@
                 rows: [toolbar, main, footer]
             });
 
-
+            $$("chart").sync($$("mylistUser"), function () {
+                $$("chart").group({
+                    by: "country",
+                    map: {
+                        value: ["name", "count"]
+                    }
+                });
+            });
 
             $$("mydata").registerFilter(
                 $$("tabbar"),
@@ -430,20 +457,9 @@
                 }
             );
 
-
-
-
-            $$("chart").sync($$("mylistUser"), function () {
-                $$("chart").group({
-                    by: "country",
-                    map: {
-                        value: ["name", "count"]
-                    }
-                });
-            });
-
             $$("myform").bind($$("mydata"));
 
+            
             $$("mylist").select("Dashboard");
         });
     </script>

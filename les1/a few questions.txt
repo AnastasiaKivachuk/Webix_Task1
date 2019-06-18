@@ -1,2 +1,3 @@
 1) I connected form and datatable in 2 ways: with bind and witout bind (is in the comments).(решила реабилитироваться, так как раньше просто не могла сделать из-за проблемы с формой)
 2) I really don't understand why url doesn't work. I will try to solve this problem today in office.
+3) chart doest't want to update ()
