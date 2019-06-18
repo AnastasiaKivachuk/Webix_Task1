@@ -412,7 +412,7 @@
             });
 
             $$("chart").sync($$("mylistUser"), function () {
-                $$("chart").group({
+               this.group({
                     by: "country",
                     map: {
                         value: ["name", "count"]
