@@ -89,14 +89,8 @@
                     { id: "rank", header: "", width: 50, css: 'grayColumn', sort: "int" },
                     { id: "title", header: ["Film title", { content: "textFilter" }], width: 200, sort: "string", fillspace: true },
                     {
-                        id: "categoty", header: ["Categoty", { content: "selectFilter" }],
-                        editor: "select", data:
-                            [
-                                { "id": 1, "value": "Drama" },
-                                { "id": 2, "value": "Fiction" },
-                                { "id": 3, "value": "Comedy" },
-                                { "id": 4, "value": "Horror" }
-                            ], width: 100, sort: "string"
+                        id: "categotyId", header: ["Categoty", { content: "selectFilter" }],
+                        editor: "select", collection: "data/categories.js", width: 100, sort: "string"
                     },
                     { id: "votes", header: ["Votes", { content: "textFilter" }], width: 80, sort: "int" },
                     { id: "rating", header: ["Rating", { content: "textFilter" }], width: 80, sort: "int" },
@@ -105,7 +99,7 @@
                 ],
             scheme: {
                 $init: function (obj) {
-                    obj.value = Math.floor(Math.random() * 4 + 1);
+                    obj.categotyId = Math.floor(Math.random() * 4 + 1);
                 }
             },
             //    on:{onAfterSelect:function(id){
