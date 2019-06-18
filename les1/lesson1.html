@@ -258,23 +258,20 @@
 
         var chartUser = {
             view: "chart",
+            id:"chart",
             type: "bar",
-            value: "#age#",
             xAxis: {
-                template: "#age#",
-                title: "Age",
+                template: "#country#",
+                title: "Number of people from each country",
             },
             barWidth: 35,
             radius: 0,
             yAxis: {
                 start: 0,
-                end: 100,
-                step: 10,
-                template: function (obj) {
-                    return (obj % 20 ? "" : obj)
-                }
+                end: 10,
+                step: 2,
+                
             },
-            data: dataUser,
         };
 
         var sortLine = {
@@ -434,14 +431,16 @@
             );
 
 
-            $$("chartUser").group({
-                by: "coutry",
-                map: {
-                    coutry: ["coutry", "count"]
-                }
-            });
 
-            $$("mylistUser").sync($$("chartUser"));
+
+            $$("chart").sync($$("mylistUser"), function () {
+                $$("chart").group({
+                    by: "country",
+                    map: {
+                        value: ["name", "count"]
+                    }
+                });
+            });
 
             $$("myform").bind($$("mydata"));
 
