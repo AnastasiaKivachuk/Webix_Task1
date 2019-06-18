@@ -171,6 +171,20 @@
                         },
                         {
                             view: "button",
+                            value: "Save",
+                            css: "webix_primary",
+                            click: function () {
+                                if ($$("myform").validate()) {
+                                    // webix.message("validation is successful");
+                                    // var item = $$("myform").getValues();
+                                    // console.log(item);
+                                    // $$("mydata").add(item);
+                                    form.save()
+                                }
+                            }
+                        },
+                        {
+                            view: "button",
                             value: "Clear",
                             click: function () {
                                 webix.confirm({
