@@ -160,22 +160,29 @@
                 name: "votes",
                 invalidMessage: "Please enter votes less than 100000"
             },
+            { 
+				view:"richselect",
+				label: "Categories",  
+                name:"categories",
+                value: $$("categotyId"),
+                options: collectionCategories
+			},
             {
                 cols:
                     [
-                        {
-                            view: "button",
-                            value: "Add new",
-                            css: "webix_primary",
-                            click: function () {
-                                if ($$("myform").validate()) {
-                                    webix.message("validation is successful");
-                                    var item = $$("myform").getValues();
-                                    console.log(item);
-                                    $$("mydata").add(item);
-                                }
-                            }
-                        },
+                        // {
+                        //     view: "button",
+                        //     value: "Add new",
+                        //     css: "webix_primary",
+                        //     click: function () {
+                        //         if ($$("myform").validate()) {
+                        //             webix.message("validation is successful");
+                        //             var item = $$("myform").getValues();
+                        //             console.log(item);
+                        //             $$("mydata").add(item);
+                        //         }
+                        //     }
+                        // },
                         {
                             view: "button",
                             value: "Save",
@@ -421,79 +428,79 @@
 
         };
 
-        var dataTableCategories = {
-            view: "datatable",
-            id: "mydataCategories",
-            editaction: "dblclick",
-            editable: true,
-            scrollX: false,
-            select: true,
-            columns:
-                [
-                    { id: "value", header: "Categories", editor: "text", sort: "string", fillspace: true },
-                ],
-            rules: {
-                "country": webix.rules.isNotEmpty,
-            },
+        // var dataTableCategories = {
+        //     view: "datatable",
+        //     id: "mydataCategories",
+        //     editaction: "dblclick",
+        //     editable: true,
+        //     scrollX: false,
+        //     select: true,
+        //     columns:
+        //         [
+        //             { id: "value", header: "Categories", editor: "text", sort: "string", fillspace: true },
+        //         ],
+        //     rules: {
+        //         "country": webix.rules.isNotEmpty,
+        //     },
 
 
-        };
+        // };
 
-        var MenuCategories = {
-            rows: [
-                {
-                    view: "form",
-                    id: "formCategory",
-                    //width: 400,
-                    elements: [
-                        {
-                            view: "text",
-                            label: "Categories",
-                            name: "categories",
-                            invalidMessage: "Please enter category"
-                        },
-                        {
-                            cols:
-                                [
-                                    {
-                                        view: "button",
-                                        value: "Add new",
-                                        css: "webix_primary",
-                                        click: function () {
-                                            if ($$("formCategory").validate()) {
-                                                var item = $$("formCategory").getValues();
-                                                console.log(item);
-                                                collectionCategories.add(function(item){
-                                                    console.log(numb);
-                                                    return {"value": numb}
-                                                });
-                                            }
-                                        }
-                                    },
-                                    {
-                                        view: "button",
-                                        value: "Remove selected",
-                                        click: function () {
-                                            var sel = $$("mydataCategories").getSelectedId();
-                                            if (sel)
-                                                collectionCategories.remove(sel);
-                                        }
-                                    },
+        // var MenuCategories = {
+        //     rows: [
+        //         {
+        //             view: "form",
+        //             id: "formCategory",
+        //             //width: 400,
+        //             elements: [
+        //                 {
+        //                     view: "text",
+        //                     label: "Categories",
+        //                     name: "categories",
+        //                     invalidMessage: "Please enter category"
+        //                 },
+        //                 {
+        //                     cols:
+        //                         [
+        //                             {
+        //                                 view: "button",
+        //                                 value: "Add new",
+        //                                 css: "webix_primary",
+        //                                 click: function () {
+        //                                     if ($$("formCategory").validate()) {
+        //                                         var item = $$("formCategory").getValues();
+        //                                         console.log(item);
+        //                                         collectionCategories.add(function(item){
+        //                                             console.log(numb);
+        //                                             return {"value": numb}
+        //                                         });
+        //                                     }
+        //                                 }
+        //                             },
+        //                             {
+        //                                 view: "button",
+        //                                 value: "Remove selected",
+        //                                 click: function () {
+        //                                     var sel = $$("mydataCategories").getSelectedId();
+        //                                     if (sel)
+        //                                         collectionCategories.remove(sel);
+        //                                 }
+        //                             },
 
-                                ],
-                        },
-                    ],
-                    rules: {
-                        categories: webix.rules.isNotEmpty,
+        //                         ],
+        //                 },
+        //             ],
+        //             rules: {
+        //                 categories: webix.rules.isNotEmpty,
 
-                    },
-                },
-
-
+        //             },
+        //         },
 
 
-            ]
-        };
+
+
+        //     ]
+        // };
 
 
 
@@ -505,7 +512,7 @@
                     { id: "Dashboard", rows: [tabbar, { cols: [dataTable, form] }] },
                     { id: "Users", rows: [sortLine, listUser, chartUser] },
                     { id: "Products", rows: [treeProduct] },
-                    { id: "Admin", rows: [dataTableUsers, MenuUser, dataTableCategories, MenuCategories] },
+                    { id: "Admin", rows: [dataTableUsers, MenuUser] },
 
                 ]
         };
@@ -589,8 +596,9 @@
             $$("myform").bind($$("mydata"));
             $$("mydataUsers").sync(collectionUsers);
             $$("mylistUser").sync(collectionUsers);
+            $$("myform").sync(collectionUsers);
 
-            $$("mydataCategories").sync(collectionCategories);
+            $$("categotyId").sync(collectionCategories);
 
 
             $$("mylist").select("Dashboard");
