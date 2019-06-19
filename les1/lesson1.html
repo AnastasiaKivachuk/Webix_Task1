@@ -163,7 +163,7 @@
             { 
 				view:"richselect",
 				label: "Categories",  
-                name:"categories",
+                name:"categotyId",
                 value: $$("categotyId"),
                 options: collectionCategories
 			},
@@ -382,125 +382,122 @@
                 }
             }
         };
-        var dataTableUsers = {
-            view: "datatable",
-            id: "mydataUsers",
-            editaction: "dblclick",
-            editable: true,
-            scrollX: false,
-            select: true,
-            columns:
-                [
-                    { id: "name", header: "Name", editor: "text", width: 200, sort: "string", fillspace: true },
-                    { id: "age", header: "Age", editor: "text", width: 80, sort: "int" },
-                    { id: "country", header: "Country", editor: "text", width: 150, sort: "string", },
-                ],
-            rules: {
-                "name": webix.rules.isNotEmpty,
-                "age": webix.rules.isNumber,
-                "country": webix.rules.isNotEmpty,
-            },
-
-
-        };
-
-        var MenuUser = {
-            rows: [
-                {
-                    view: "toolbar", cols: [
-                        {
-                            view: "button", value: "Add new", css: "webix_primary", click: function () {
-                                collectionUsers.add(
-                                    funcountry());
-                            }
-                        },
-                        {
-                            view: "button", value: "Remove selected",
-                            click: function () {
-                                var sel = $$("mydataUsers").getSelectedId();
-                                if (sel)
-                                    collectionUsers.remove(sel);
-                            }
-                        },
-                    ]
-                },
-            ]
-
-        };
-
-        // var dataTableCategories = {
+        // var dataTableUsers = {
         //     view: "datatable",
-        //     id: "mydataCategories",
+        //     id: "mydataUsers",
         //     editaction: "dblclick",
         //     editable: true,
         //     scrollX: false,
         //     select: true,
         //     columns:
         //         [
-        //             { id: "value", header: "Categories", editor: "text", sort: "string", fillspace: true },
+        //             { id: "name", header: "Name", editor: "text", width: 200, sort: "string", fillspace: true },
+        //             { id: "age", header: "Age", editor: "text", width: 80, sort: "int" },
+        //             { id: "country", header: "Country", editor: "text", width: 150, sort: "string", },
         //         ],
         //     rules: {
+        //         "name": webix.rules.isNotEmpty,
+        //         "age": webix.rules.isNumber,
         //         "country": webix.rules.isNotEmpty,
         //     },
 
 
         // };
 
-        // var MenuCategories = {
+        // var MenuUser = {
         //     rows: [
         //         {
-        //             view: "form",
-        //             id: "formCategory",
-        //             //width: 400,
-        //             elements: [
+        //             view: "toolbar", cols: [
         //                 {
-        //                     view: "text",
-        //                     label: "Categories",
-        //                     name: "categories",
-        //                     invalidMessage: "Please enter category"
+        //                     view: "button", value: "Add new", css: "webix_primary", click: function () {
+        //                         collectionUsers.add(
+        //                             funcountry());
+        //                     }
         //                 },
         //                 {
-        //                     cols:
-        //                         [
-        //                             {
-        //                                 view: "button",
-        //                                 value: "Add new",
-        //                                 css: "webix_primary",
-        //                                 click: function () {
-        //                                     if ($$("formCategory").validate()) {
-        //                                         var item = $$("formCategory").getValues();
-        //                                         console.log(item);
-        //                                         collectionCategories.add(function(item){
-        //                                             console.log(numb);
-        //                                             return {"value": numb}
-        //                                         });
-        //                                     }
-        //                                 }
-        //                             },
-        //                             {
-        //                                 view: "button",
-        //                                 value: "Remove selected",
-        //                                 click: function () {
-        //                                     var sel = $$("mydataCategories").getSelectedId();
-        //                                     if (sel)
-        //                                         collectionCategories.remove(sel);
-        //                                 }
-        //                             },
-
-        //                         ],
+        //                     view: "button", value: "Remove selected",
+        //                     click: function () {
+        //                         var sel = $$("mydataUsers").getSelectedId();
+        //                         if (sel)
+        //                             collectionUsers.remove(sel);
+        //                     }
         //                 },
-        //             ],
-        //             rules: {
-        //                 categories: webix.rules.isNotEmpty,
-
-        //             },
+        //             ]
         //         },
-
-
-
-
         //     ]
+
         // };
+
+        var dataTableCategories = {
+            view: "datatable",
+            id: "mydataCategories",
+            editaction: "dblclick",
+            editable: true,
+            scrollX: false,
+            select: true,
+            columns:
+                [
+                    { id: "value", header: "Categories", editor: "text", sort: "string", fillspace: true },
+                ],
+            rules: {
+                "country": webix.rules.isNotEmpty,
+            },
+
+
+        };
+
+        var MenuCategories = {
+            rows: [
+                {
+                    view: "form",
+                    id: "formCategory",
+                    //width: 400,
+                    elements: [
+                        {
+                            view: "text",
+                            label: "Categories",
+                            name: "value",
+                            invalidMessage: "Please enter category"
+                        },
+                        {
+                            cols:
+                                [
+                                    {
+                                        view: "button",
+                                        value: "Add new",
+                                        css: "webix_primary",
+                                        click: function () {
+                                            if ($$("formCategory").validate()) {
+                                                var item = $$("formCategory").getValues();
+                                                collectionCategories.add(item);
+                                                console.log(item);
+                                            }
+                                        }
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Remove selected",
+                                        click: function () {
+                                            var sel = $$("mydataCategories").getSelectedId();
+                                            if (sel)
+                                                collectionCategories.remove(sel);
+                                        }
+                                    },
+
+                                ],
+                        },
+                    ],
+                    rules: {
+                        categories: webix.rules.isNotEmpty,
+
+                    },
+                },
+
+
+
+
+            ]
+        };
 
 
 
@@ -512,7 +509,7 @@
                     { id: "Dashboard", rows: [tabbar, { cols: [dataTable, form] }] },
                     { id: "Users", rows: [sortLine, listUser, chartUser] },
                     { id: "Products", rows: [treeProduct] },
-                    { id: "Admin", rows: [dataTableUsers, MenuUser] },
+                    { id: "Admin", rows: [dataTableCategories, MenuCategories] },
 
                 ]
         };
@@ -594,9 +591,11 @@
             );
 
             $$("myform").bind($$("mydata"));
-            $$("mydataUsers").sync(collectionUsers);
-            $$("mylistUser").sync(collectionUsers);
-            $$("myform").sync(collectionUsers);
+            // $$("mydataUsers").sync(collectionUsers);
+            // $$("mylistUser").sync(collectionUsers);
+
+            $$("mydataCategories").sync(collectionCategories);
+            $$("myform").sync(collectionCategories);
 
             $$("categotyId").sync(collectionCategories);
 
