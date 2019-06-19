@@ -488,7 +488,7 @@
                         },
                     ],
                     rules: {
-                        categories: webix.rules.isNotEmpty,
+                        value: webix.rules.isNotEmpty,
 
                     },
                 },
@@ -592,10 +592,10 @@
 
             $$("myform").bind($$("mydata"));
             // $$("mydataUsers").sync(collectionUsers);
-            // $$("mylistUser").sync(collectionUsers);
+            $$("mylistUser").sync(collectionUsers);
 
             $$("mydataCategories").sync(collectionCategories);
-            $$("myform").sync(collectionCategories);
+           // $$("myform").sync(collectionCategories);
 
             $$("categotyId").sync(collectionCategories);
 
