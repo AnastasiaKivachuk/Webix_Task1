@@ -100,6 +100,8 @@
             scheme: {
                 $init: function (obj) {
                     obj.categotyId = Math.floor(Math.random() * 4 + 1);
+                    obj.votes = obj.votes.replace(",", ".");
+                    obj.rating = obj.rating.replace(",", ".");
                 }
             },
             //    on:{onAfterSelect:function(id){
@@ -118,7 +120,6 @@
                         })
                 }
             },
-
         };
 
         var form = {
@@ -174,12 +175,11 @@
                             value: "Save",
                             css: "webix_primary",
                             click: function () {
-                                if ($$("myform").validate()) {
-                                    // webix.message("validation is successful");
-                                    // var item = $$("myform").getValues();
-                                    // console.log(item);
-                                    // $$("mydata").add(item);
-                                    form.save()
+                                var form = $$('myform');
+                                if (form.isDirty()) {
+                                    if (!form.validate())
+                                        return false;
+                                    form.save();
                                 }
                             }
                         },
@@ -216,6 +216,11 @@
 
         };
 
+        var collectionUsers = new webix.DataCollection({
+            url: "data/users.js",
+        });
+
+
         webix.protoUI({
             name: "editlist"
         }, webix.EditAbility, webix.ui.list);
@@ -231,7 +236,7 @@
             editor: "text",
             editValue: "name",
             template: "#name# from #country# <span class='webix_icon wxi-close removeUser'></span>",
-            url: "data/users.js",
+            // url: "data/users.js",
             rules: {
                 "name": webix.rules.isNotEmpty,
             },
@@ -247,8 +252,11 @@
                         text: "Do you still want to continue?"
                     }).then(
                         function () {
-                            $$("mylistUser").remove(id);
+                            var sel = $$("mylistUser").getSelectedId();
+                            if (sel)
+                                collectionUsers.remove(sel);
                             return false;
+
                         })
                 }
             },
@@ -304,7 +312,7 @@
                         css: "webix_primary",
                         autowidth: true,
                         click: function () {
-                            $$("mylistUser").add(
+                            collectionUsers.add(
                                 funcountry()
                             )
                         }
@@ -365,20 +373,66 @@
                 }
             }
         };
+        var dataTableUsers = {
+            view: "datatable",
+            id: "mydataUsers",
+            editaction: "dblclick",
+            editable: true,
+            scrollX: false,
+            select: true,
+            columns:
+                [
+                    { id: "name", header: "Name", editor: "text", width: 200, sort: "string", fillspace: true },
+                    { id: "age", header: "Age", editor: "text", width: 80, sort: "int" },
+                    { id: "country", header: "Country", editor: "text", width: 150, sort: "string", },
+                ],
+            rules: {
+                "name": webix.rules.isNotEmpty,
+                "age": webix.rules.isNumber,
+                "country": webix.rules.isNotEmpty,
+            },
+
+
+        };
+
+        var MenuUser = {
+            rows: [
+                {
+                    view: "toolbar", cols: [
+                        {
+                            view: "button", value: "Add new", css: "webix_primary", click: function () {
+                                collectionUsers.add(
+                                    funcountry());
+                            }
+                        },
+                        {
+                            view: "button", value: "Remove selected",
+                            click: function () {
+                                var sel = $$("mydataUsers").getSelectedId();
+                                if (sel)
+                                    collectionUsers.remove(sel);
+                            }
+                        },
+                    ]
+                },
+            ]
+
+        };
+
+
+
+
+
         var multiviewCells = {
             cells:
                 [
                     { id: "Dashboard", rows: [tabbar, { cols: [dataTable, form] }] },
                     { id: "Users", rows: [sortLine, listUser, chartUser] },
                     { id: "Products", rows: [treeProduct] },
-                    { id: "Locations", template: "Admin  view" },
+                    { id: "Admin", rows: [dataTableUsers, MenuUser] },
 
                 ]
         };
-
-
-
-
 
         var main = {
             cols:
@@ -397,7 +451,7 @@
                                         $$(id).show();
                                     }
                                 },
-                                data: ["Dashboard", "Users", "Products", "Locations"],
+                                data: ["Dashboard", "Users", "Products", "Admin"],
                             },
                             {
                                 template: "<div><span class='webix_icon wxi-check'></span>Connected</div>",
@@ -426,7 +480,7 @@
             });
 
             $$("chart").sync($$("mylistUser"), function () {
-               this.group({
+                this.group({
                     by: "country",
                     map: {
                         value: ["name", "count"]
@@ -457,8 +511,8 @@
             );
 
             $$("myform").bind($$("mydata"));
-
-
+            $$("mydataUsers").sync(collectionUsers);
+            $$("mylistUser").sync(collectionUsers);
             $$("mylist").select("Dashboard");
         });
     </script>
